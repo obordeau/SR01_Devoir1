@@ -10,7 +10,8 @@ int *initpoints(int N)
         printf("Quelle est la note de l'etudiant %d \n", i + 1);
         int tmp = -1;
         scanf("%d", &tmp);
-        while (tmp <= 0 || tmp >= 60){
+        while (tmp < 0 || tmp > 60)
+        {
             printf("Veuillez saisir une valeur entre 0 et 60.\n");
             scanf("%d", &tmp);
         }
@@ -123,6 +124,26 @@ void graph_nuage(int* NOTES){
     }
     printf("\n");
     printf("    |  0 - 9 | 10 - 19| 20 - 29| 30 - 39| 40 - 49| 50 - 59|   60   |");
+void graph_batons(int *NOTES)
+{
+    for (int i = nmax(NOTES, 7); i > 0; i--)
+    {
+        printf("%d > ", i);
+        for (int k = 0; k < 7; k++)
+        {
+            if (NOTES[k] >= i)
+            {
+                printf(" ####### ");
+            }
+            else
+            {
+                printf("         ");
+            }
+        }
+        printf("\n\n");
+    }
+    printf("    +--------+--------+--------+--------+--------+--------+--------+\n");
+    printf("    | 0 - 9  | 10 - 19| 20 - 29| 30 - 39| 40 - 49| 50 - 59|   60   |");
 }
 
 int main(int argc, char const *argv[])
@@ -130,15 +151,15 @@ int main(int argc, char const *argv[])
     int N = -1;
     printf("Combien d'etudiants ont fait le devoir de SR01 ?\n");
     scanf("%d", &N);
-    while (N <= 0){
+    while (N <= 0)
+    {
         printf("Le nombre d'étudiants doit etre positif.\n");
         scanf("%d", &N);
     }
-    
-
     int *POINTS = initpoints(N);
     int *NOTES = initnotes(POINTS, N);
     graph_nuage(NOTES);
+    graph_batons(NOTES);
     free(POINTS);
     free(NOTES);
     return 0;
