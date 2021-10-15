@@ -104,7 +104,7 @@ int main(int argc, char const *argv[])
     printf("Combien d'etudiants ont fait le devoir de SR01 ?\n");
     scanf("%d", &N);
     while (N <= 0){
-        printf("Le nombre d'étudiants doit être positif.\n");
+        printf("Le nombre d'étudiants doit etre positif.\n");
         scanf("%d", &N);
     }
     
