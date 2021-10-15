@@ -3,4 +3,9 @@ typedef struct Voiture {
     char immat[8];
     int km;
     enum Etat {dispo, louee} etat;
-} Voitures;
+} Voiture;
+
+void viderBuffer();
+int lire(char *chaine, int longueur);
+int menu();
+Voiture* init (int n);
