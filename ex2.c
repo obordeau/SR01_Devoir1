@@ -8,7 +8,13 @@ int *initpoints(int N)
     for (int i = 0; i < N; i++)
     {
         printf("Quelle est la note de l'etudiant %d \n", i + 1);
-        scanf("%d", &POINTS[i]);
+        int tmp = -1;
+        scanf("%d", &tmp);
+        while (tmp <= 0 || tmp >= 60){
+            printf("Veuillez saisir une valeur entre 0 et 60.\n");
+            scanf("%d", &tmp);
+        }
+        POINTS[i] = tmp;
     }
     return (POINTS);
 }
@@ -51,9 +57,15 @@ float moyenne(int *tab, int N)
 
 int main(int argc, char const *argv[])
 {
-    int N = 0;
+    int N = -1;
     printf("Combien d'etudiants ont fait le devoir de SR01 ?\n");
     scanf("%d", &N);
+    while (N <= 0){
+        printf("Le nombre d'étudiants doit être positif.\n");
+        scanf("%d", &N);
+    }
+    
+
     int *POINTS = initpoints(N);
     printf("%f", moyenne(POINTS, N));
     free(POINTS);
