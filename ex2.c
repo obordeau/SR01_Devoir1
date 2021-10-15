@@ -55,6 +55,49 @@ float moyenne(int *tab, int N)
     return (total / N);
 }
 
+int *initnotes(int *POINTS, int N)
+{
+    int *NOTES;
+    NOTES = (int *)malloc(7 * sizeof(int));
+    for (int i = 0; i < 7; i++)
+    {
+        NOTES[i] = 0;
+    }
+
+    for (int i = 0; i < N; i++)
+    {
+        if (POINTS[i] >= 0 && POINTS[i] <= 9)
+        {
+            NOTES[0]++;
+        }
+        else if (POINTS[i] >= 10 && POINTS[i] <= 19)
+        {
+            NOTES[1]++;
+        }
+        else if (POINTS[i] >= 20 && POINTS[i] <= 29)
+        {
+            NOTES[2]++;
+        }
+        else if (POINTS[i] >= 30 && POINTS[i] <= 39)
+        {
+            NOTES[3]++;
+        }
+        else if (POINTS[i] >= 40 && POINTS[i] <= 49)
+        {
+            NOTES[4]++;
+        }
+        else if (POINTS[i] >= 50 && POINTS[i] <= 59)
+        {
+            NOTES[5]++;
+        }
+        else if (POINTS[i] == 60)
+        {
+            NOTES[6]++;
+        }
+    }
+    return (NOTES);
+}
+
 int main(int argc, char const *argv[])
 {
     int N = -1;
@@ -67,7 +110,12 @@ int main(int argc, char const *argv[])
     
 
     int *POINTS = initpoints(N);
-    printf("%f", moyenne(POINTS, N));
+    int *NOTES = initnotes(POINTS, N);
+    for (int i = 0; i < 7; i++)
+    {
+        printf("%d\n", NOTES[i]);
+    }
     free(POINTS);
+    free(NOTES);
     return 0;
 }
