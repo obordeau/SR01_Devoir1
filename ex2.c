@@ -98,6 +98,33 @@ int *initnotes(int *POINTS, int N)
     return (NOTES);
 }
 
+void graph_nuage(int* NOTES){
+    for (int i = nmax(NOTES, 7); i > 0; i--){
+        printf("%d > ", i);
+        for (int j = 0; j < 7; j++){
+            if (NOTES[j] == i){
+                printf("    o    ");
+            }
+            else {
+                printf("         ");
+            }
+        }
+        printf("\n");
+        printf("\n");
+    }
+    printf("    +");
+    for (int j = 0; j < 7; j++){
+        if (NOTES[j] == 0){
+            printf("----o---+");
+        }
+        else {
+            printf("--------+");
+        }
+    }
+    printf("\n");
+    printf("    |  0 - 9 | 10 - 19| 20 - 29| 30 - 39| 40 - 49| 50 - 59|   60   |");
+}
+
 int main(int argc, char const *argv[])
 {
     int N = -1;
@@ -111,10 +138,7 @@ int main(int argc, char const *argv[])
 
     int *POINTS = initpoints(N);
     int *NOTES = initnotes(POINTS, N);
-    for (int i = 0; i < 7; i++)
-    {
-        printf("%d\n", NOTES[i]);
-    }
+    graph_nuage(NOTES);
     free(POINTS);
     free(NOTES);
     return 0;
