@@ -124,6 +124,7 @@ void graph_nuage(int* NOTES){
     }
     printf("\n");
     printf("    |  0 - 9 | 10 - 19| 20 - 29| 30 - 39| 40 - 49| 50 - 59|   60   |");
+    
 void graph_batons(int *NOTES)
 {
     for (int i = nmax(NOTES, 7); i > 0; i--)
