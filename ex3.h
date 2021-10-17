@@ -16,3 +16,5 @@ int menu();
 Voiture *init(int n);
 void retour(Voiture *voitures, int n);
 void etat(Voiture *voitures, int n);
+Voiture *init(int n);
+void louer(Voiture *voitures, int n);

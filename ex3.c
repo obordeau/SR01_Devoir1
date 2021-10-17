@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 #include "ex3.h"
 
 void viderBuffer()
@@ -80,7 +81,7 @@ Voiture *init(int n)
         }
         parc[i].etat = choix_etat;
 
-        printf("%s %s %d %d", parc[i].modele, parc[i].immat, parc[i].km, parc[i].etat);
+        printf("%s %s %d %d\n", parc[i].modele, parc[i].immat, parc[i].km, parc[i].etat);
     }
     return parc;
 }
@@ -151,8 +152,48 @@ void etat(Voiture *voitures, int n)
     }
 }
 
+void louer(Voiture *voitures, int n)
+{
+    printf("Veuillez entrer l'immatriculation du vehicule a louer\n");
+    char immat[9];
+    scanf("%8s", immat);
+
+    int voiture_index = -1;
+    for (int i = 0; i < n; i++)
+    {
+        if (strcmp(voitures[i].immat, immat) == 0)
+        {
+            voiture_index = i;
+        }
+    }
+
+    if (voiture_index != -1)
+    {
+        if (voitures[voiture_index].etat == dispo)
+        {
+            voitures[voiture_index].etat == louee;
+            printf("Le vehicule immatricule %s est maintenant loué ! \n", voitures[voiture_index].immat);
+        }
+        else
+        {
+            printf("Cette voiture est deja louee.\n");
+        }
+    }
+    else
+    {
+        printf("Aucun vehicule ne correspond a cette immatriculation.\n");
+    }
+}
+
+void free_parc(Voiture *parc, int n)
+{
+    free(parc);
+}
+
 int main()
 {
     Voiture *parc = init(1);
-    etat(parc, 1);
+    louer(parc, 1);
+    free_parc(parc, 1);
+    return 0;
 }
