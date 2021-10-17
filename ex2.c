@@ -99,14 +99,19 @@ int *initnotes(int *POINTS, int N)
     return (NOTES);
 }
 
-void graph_nuage(int* NOTES){
-    for (int i = nmax(NOTES, 7); i > 0; i--){
+void graph_nuage(int *NOTES)
+{
+    for (int i = nmax(NOTES, 7); i > 0; i--)
+    {
         printf("%d > ", i);
-        for (int j = 0; j < 7; j++){
-            if (NOTES[j] == i){
+        for (int j = 0; j < 7; j++)
+        {
+            if (NOTES[j] == i)
+            {
                 printf("    o    ");
             }
-            else {
+            else
+            {
                 printf("         ");
             }
         }
@@ -114,17 +119,21 @@ void graph_nuage(int* NOTES){
         printf("\n");
     }
     printf("    +");
-    for (int j = 0; j < 7; j++){
-        if (NOTES[j] == 0){
+    for (int j = 0; j < 7; j++)
+    {
+        if (NOTES[j] == 0)
+        {
             printf("----o---+");
         }
-        else {
+        else
+        {
             printf("--------+");
         }
     }
     printf("\n");
     printf("    |  0 - 9 | 10 - 19| 20 - 29| 30 - 39| 40 - 49| 50 - 59|   60   |");
-    
+}
+
 void graph_batons(int *NOTES)
 {
     for (int i = nmax(NOTES, 7); i > 0; i--)
