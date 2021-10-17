@@ -1,6 +1,6 @@
 typedef struct Voiture {
     char modele[20];
-    char immat[8];
+    char immat[9];
     int km;
     enum Etat {dispo, louee} etat;
 } Voiture;
@@ -9,3 +9,4 @@ void viderBuffer();
 int lire(char *chaine, int longueur);
 int menu();
 Voiture* init (int n);
+void louer (Voiture *voitures, int n);
