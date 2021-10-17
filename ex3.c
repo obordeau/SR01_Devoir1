@@ -6,37 +6,38 @@
 
 void viderBuffer()
 {
-   int c = 0;
-   while (c != '\n' && c != EOF)
-   {
-       c = getchar();
-   }
+    int c = 0;
+    while (c != '\n' && c != EOF)
+    {
+        c = getchar();
+    }
 }
 
 int lire(char *chaine, int longueur)
 {
-   char *positionEntree = NULL;
-   if (fgets(chaine, longueur, stdin) != NULL)
-   {
-       positionEntree = strchr(chaine, '\n');
-       if (positionEntree != NULL)
-       {
-           *positionEntree = '\0';
-       }
-       else
-       {
-           viderBuffer();
-       }
-       return 1;
-   }
-   else
-   {
-       viderBuffer();
-       return 0;
-   }
+    char *positionEntree = NULL;
+    if (fgets(chaine, longueur, stdin) != NULL)
+    {
+        positionEntree = strchr(chaine, '\n');
+        if (positionEntree != NULL)
+        {
+            *positionEntree = '\0';
+        }
+        else
+        {
+            viderBuffer();
+        }
+        return 1;
+    }
+    else
+    {
+        viderBuffer();
+        return 0;
+    }
 }
 
-int menu(){
+int menu()
+{
     int choix = 0;
     printf("------------------MENU------------------\n");
     printf("1: Louer une voiture\n");
@@ -49,9 +50,11 @@ int menu(){
     return choix;
 }
 
-Voiture* init (int n){
-    Voiture* parc = (Voiture*) malloc(n * sizeof(Voiture));
-    for (int i = 0; i < n; i++){
+Voiture *init(int n)
+{
+    Voiture *parc = (Voiture *)malloc(n * sizeof(Voiture));
+    for (int i = 0; i < n; i++)
+    {
         printf("Quel est le modele de la voiture %d ?\n", i + 1);
         lire(parc[i].modele, 20);
 
@@ -61,7 +64,8 @@ Voiture* init (int n){
         printf("Quelle est le kilometrage de la voiture %d ?\n", i + 1);
         int km = -1;
         scanf("%d", &km);
-        while (km < 0){
+        while (km < 0)
+        {
             printf("Veuillez indiquer un kilometrage positif ou nul");
             scanf("%d", &km);
         }
@@ -70,7 +74,8 @@ Voiture* init (int n){
         printf("Quelle est l'etat de la voiture %d ? 0 : dispo, 1 louee\n", i + 1);
         int choix_etat = -1;
         scanf("%d", &choix_etat);
-        while (choix_etat != 1 && choix_etat != 0){
+        while (choix_etat != 1 && choix_etat != 0)
+        {
             printf("Veuillez indiquer un etat de 0 ou 1");
             scanf("%d", &choix_etat);
         }
@@ -81,28 +86,101 @@ Voiture* init (int n){
     return parc;
 }
 
-void louer (Voiture *voitures, int n){
+void retour(Voiture *voitures, int n)
+{
+    char immat[9];
+    int ok = 0, km = -1;
+    printf("Veuillez entrer l'immatriculation du vehicule a retourner.\n");
+    scanf("%s", &immat);
+    for (int i = 0; i < n; i++)
+    {
+        if (strcmp(voitures[i].immat, immat) == 0)
+        {
+            ok = 1;
+            if (voitures[i].etat == dispo)
+            {
+                printf("La voiture n'etait pas en location.\n");
+            }
+            else
+            {
+                printf("Combien de kilometres avez-vous fait ?\n");
+                scanf("%d", &km);
+                while (km < 0)
+                {
+                    printf("Veuillez entrer un kilometrage positif.\n");
+                    scanf("%d", &km);
+                }
+                voitures[i].km += km;
+                voitures[i].etat = dispo;
+                printf("La voiture est de nouveau disponible avec %d km au compteur.\n", voitures[i].km);
+            }
+        }
+    }
+    if (ok == 0)
+    {
+        printf("Aucun vehicule ne correspond a cette immatriculation.\n");
+    }
+}
+
+void etat(Voiture *voitures, int n)
+{
+    char immat[9];
+    int ok = 0;
+    printf("Veuillez entrer l'immatriculation du vehicule a retourner.\n");
+    scanf("%s", &immat);
+    for (int i = 0; i < n; i++)
+    {
+        if (strcmp(voitures[i].immat, immat) == 0)
+        {
+            ok = 1;
+            printf("La voiture est une %s\n", voitures[i].modele);
+            printf("L'immatriculation de la voiture est : %s\n", voitures[i].immat);
+            printf("La voiture a %d km au compteur\n", voitures[i].km);
+            if (voitures[i].etat == dispo)
+            {
+                printf("La voiture est disponible a la location.\n");
+            }
+            else
+            {
+                printf("La voiture est deja louee.\n");
+            }
+        }
+    }
+    if (ok == 0)
+    {
+        printf("Aucun vehicule ne correspond a cette immatriculation.\n");
+    }
+}
+
+void louer(Voiture *voitures, int n)
+{
     printf("Veuillez entrer l'immatriculation du vehicule a louer\n");
     char immat[9];
     scanf("%8s", immat);
 
     int voiture_index = -1;
-    for (int i = 0; i < n; i++){
-        if (strcmp(voitures[i].immat, immat) == 0){
+    for (int i = 0; i < n; i++)
+    {
+        if (strcmp(voitures[i].immat, immat) == 0)
+        {
             voiture_index = i;
         }
     }
 
-    if (voiture_index != -1){
-        if (voitures[voiture_index].etat == dispo){
+    if (voiture_index != -1)
+    {
+        if (voitures[voiture_index].etat == dispo)
+        {
             voitures[voiture_index].etat == louee;
             printf("Le vehicule immatricule %s est maintenant loué ! \n", voitures[voiture_index].immat);
         }
-        else{
+        else
+        {
             printf("Cette voiture est deja louee.\n");
         }
     }
-    else {
+    else
+    {
         printf("Aucun vehicule ne correspond a cette immatriculation.\n");
     }
 }
@@ -124,7 +202,8 @@ void free_parc(Voiture *parc, int n){
     free(parc);
 }
 
-int main(){
+int main()
+{
     Voiture *parc = init(1);
     louer(parc, 1);
     free_parc(parc, 1);
