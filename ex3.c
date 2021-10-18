@@ -66,35 +66,53 @@ void menu(Voiture *parc, int n)
 Voiture *init(int n)
 {
     Voiture *parc = (Voiture *)malloc(n * sizeof(Voiture));
-    for (int i = 0; i < n; i++)
+    int choix = -1;
+    printf("Avez-vous deja un fichier sauvegarde ? Oui : 0, Non : 1\n");
+    scanf("%d", &choix);
+    if (choix == 1)
     {
-        printf("Quel est le modele de la voiture %d ?\n", i + 1);
-        lire(parc[i].modele, 20);
-
-        printf("Quelle est l'immatriculation de la voiture %d ?\n", i + 1);
-        lire(parc[i].immat, 9);
-
-        printf("Quelle est le kilometrage de la voiture %d ?\n", i + 1);
-        int km = -1;
-        scanf("%d", &km);
-        while (km < 0)
+        for (int i = 0; i < n; i++)
         {
-            printf("Veuillez indiquer un kilometrage positif ou nul");
+            printf("Quel est le modele de la voiture %d ?\n", i + 1);
+            scanf("%20s", parc[i].modele);
+
+            printf("Quelle est l'immatriculation de la voiture %d ?\n", i + 1);
+            scanf("%8s", parc[i].immat);
+
+            printf("Quelle est le kilometrage de la voiture %d ?\n", i + 1);
+            int km = -1;
             scanf("%d", &km);
-        }
-        parc[i].km = km;
+            while (km < 0)
+            {
+                printf("Veuillez indiquer un kilometrage positif ou nul");
+                scanf("%d", &km);
+            }
+            parc[i].km = km;
 
-        printf("Quelle est l'etat de la voiture %d ? 0 : dispo, 1 louee\n", i + 1);
-        int choix_etat = -1;
-        scanf("%d", &choix_etat);
-        while (choix_etat != 1 && choix_etat != 0)
-        {
-            printf("Veuillez indiquer un etat de 0 ou 1");
+            printf("Quelle est l'etat de la voiture %d ? 0 : dispo, 1 louee\n", i + 1);
+            int choix_etat = -1;
             scanf("%d", &choix_etat);
+            while (choix_etat != 1 && choix_etat != 0)
+            {
+                printf("Veuillez indiquer un etat de 0 ou 1\n");
+                scanf("%d", &choix_etat);
+            }
+            parc[i].etat = choix_etat;
         }
-        parc[i].etat = choix_etat;
-
-        printf("%s %s %d %d\n", parc[i].modele, parc[i].immat, parc[i].km, parc[i].etat);
+    }
+    else
+    {
+        FILE *file = NULL;
+        char fichier[30];
+        printf("Quel est le nom du fichier ?\n");
+        scanf("%s", fichier);
+        if ((file = fopen(fichier, "r")) == NULL)
+        {
+            perror("fopen");
+            exit(1);
+        }
+        fread(parc, sizeof(Voiture), n, file);
+        fclose(file);
     }
     return parc;
 }
@@ -140,7 +158,7 @@ void etat(Voiture *voitures, int n)
     char immat[9];
     int ok = 0;
     printf("Veuillez entrer l'immatriculation du vehicule a retourner.\n");
-    scanf("%s", &immat);
+    scanf("%8s", &immat);
     for (int i = 0; i < n; i++)
     {
         if (strcmp(voitures[i].immat, immat) == 0)
@@ -213,6 +231,18 @@ void etatParc (Voiture* voitures, int n){
 
 void free_parc(Voiture *parc, int n){
     free(parc);
+}
+
+void save(char *fichier, Voiture *voitures, int n)
+{
+    FILE *file = NULL;
+    if ((file = fopen(fichier, "w")) == NULL)
+    {
+        perror("fopen");
+        exit(1);
+    }
+    fwrite(voitures, sizeof(Voiture), n, file);
+    fclose(file);
 }
 
 int main()
