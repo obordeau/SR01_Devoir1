@@ -36,18 +36,31 @@ int lire(char *chaine, int longueur)
     }
 }
 
-int menu()
+void menu(Voiture *parc, int n)
 {
-    int choix = 0;
-    printf("------------------MENU------------------\n");
-    printf("1: Louer une voiture\n");
-    printf("2: Retour d'une voiture\n");
-    printf("3: Etat d'une voiture\n");
-    printf("4: Etat du parc de voitures\n");
-    printf("5: Sauvegarde de l'etat du parc\n");
-    printf("0: fin du programme\n");
+    int choix;
+    int continuer = 1;
+    while (continuer == 1)
+    {
+        printf("------------------MENU------------------\n");
+        printf("1: Louer une voiture\n");
+        printf("2: Retour d'une voiture\n");
+        printf("3: Etat d'une voiture\n");
+        printf("4: Etat du parc de voitures\n");
+        printf("5: Sauvegarde de l'etat du parc\n");
+        printf("0: fin du programme\n");
 
-    return choix;
+        scanf("%d", &choix);
+        switch(choix){
+            case 1 : louer(parc, n); break;
+            case 2 : retour(parc, n); break;
+            case 3 : etat(parc, n); break;
+            case 4 : etatParc(parc, n); break;
+            case 0 : free_parc(parc, n); continuer = 0; break;
+            default : printf("Veuillez saisir un choix valide. \n"); break;
+        }
+    }
+    
 }
 
 Voiture *init(int n)
@@ -171,8 +184,8 @@ void louer(Voiture *voitures, int n)
     {
         if (voitures[voiture_index].etat == dispo)
         {
-            voitures[voiture_index].etat == louee;
-            printf("Le vehicule immatricule %s est maintenant loué ! \n", voitures[voiture_index].immat);
+            voitures[voiture_index].etat = louee;
+            printf("Le vehicule immatricule %s est maintenant loue ! \n", voitures[voiture_index].immat);
         }
         else
         {
@@ -186,16 +199,16 @@ void louer(Voiture *voitures, int n)
 }
 
 void etatParc (Voiture* voitures, int n){
-    printf("Le parc automobile est actuellemnt composé de %d véhicules.\n", n);
+    printf("Le parc automobile est actuellemnt compose de %d vehicules.\n", n);
     int nb_loc = 0;
     int sum_km = 0;
     for (int i = 0; i < n; i++){
         if (voitures[i].etat == louee) nb_loc++;
         sum_km += voitures[i].km;
     }
-    printf("%d véhicules sont loues.\n", nb_loc);
-    printf("%d véhicules sont disponibles.\n", n - nb_loc);
-    printf("Le kilometrage moyen de l'ensemble des voitures est de %f km.\n", (float) sum_km / (float) n);
+    printf("%d vehicules sont loues.\n", nb_loc);
+    printf("%d vehicules sont disponibles.\n", n - nb_loc);
+    printf("Le kilometrage moyen de l'ensemble des voitures est de %.1f km.\n", (float) sum_km / (float) n);
 }
 
 void free_parc(Voiture *parc, int n){
@@ -205,7 +218,6 @@ void free_parc(Voiture *parc, int n){
 int main()
 {
     Voiture *parc = init(1);
-    louer(parc, 1);
-    free_parc(parc, 1);
+    menu(parc, 1);
     return 0;
 }
