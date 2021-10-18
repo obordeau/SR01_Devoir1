@@ -203,8 +203,20 @@ void louer(Voiture *voitures, int n)
     }
 }
 
-void free_parc(Voiture *parc, int n)
-{
+void etatParc (Voiture* voitures, int n){
+    printf("Le parc automobile est actuellemnt composé de %d véhicules.\n", n);
+    int nb_loc = 0;
+    int sum_km = 0;
+    for (int i = 0; i < n; i++){
+        if (voitures[i].etat == louee) nb_loc++;
+        sum_km += voitures[i].km;
+    }
+    printf("%d véhicules sont loues.\n", nb_loc);
+    printf("%d véhicules sont disponibles.\n", n - nb_loc);
+    printf("Le kilometrage moyen de l'ensemble des voitures est de %f km.\n", (float) sum_km / (float) n);
+}
+
+void free_parc(Voiture *parc, int n){
     free(parc);
 }
 
