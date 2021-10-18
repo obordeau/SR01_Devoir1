@@ -19,3 +19,5 @@ void etat(Voiture *voitures, int n);
 Voiture *init(int n);
 void louer(Voiture *voitures, int n);
 void save(char *fichier, Voiture *voitures, int n);
+void etatParc(Voiture *voitures, int n);
+void free_parc(Voiture *parc, int n);

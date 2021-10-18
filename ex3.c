@@ -56,33 +56,38 @@ Voiture *init(int n)
     int choix = -1;
     printf("Avez-vous deja un fichier sauvegarde ? Oui : 0, Non : 1\n");
     scanf("%d", &choix);
+    viderBuffer();
     if (choix == 1)
     {
         for (int i = 0; i < n; i++)
         {
             printf("Quel est le modele de la voiture %d ?\n", i + 1);
-            scanf("%20s", parc[i].modele);
+            lire(parc[i].modele, 21);
 
             printf("Quelle est l'immatriculation de la voiture %d ?\n", i + 1);
-            scanf("%8s", parc[i].immat);
+            lire(parc[i].immat, 9);
 
             printf("Quelle est le kilometrage de la voiture %d ?\n", i + 1);
             int km = -1;
             scanf("%d", &km);
+            viderBuffer();
             while (km < 0)
             {
                 printf("Veuillez indiquer un kilometrage positif ou nul");
                 scanf("%d", &km);
+                viderBuffer();
             }
             parc[i].km = km;
 
             printf("Quelle est l'etat de la voiture %d ? 0 : dispo, 1 louee\n", i + 1);
             int choix_etat = -1;
             scanf("%d", &choix_etat);
+            viderBuffer();
             while (choix_etat != 1 && choix_etat != 0)
             {
                 printf("Veuillez indiquer un etat de 0 ou 1\n");
                 scanf("%d", &choix_etat);
+                viderBuffer();
             }
             parc[i].etat = choix_etat;
         }
@@ -92,7 +97,7 @@ Voiture *init(int n)
         FILE *file = NULL;
         char fichier[30];
         printf("Quel est le nom du fichier ?\n");
-        scanf("%s", fichier);
+        lire(fichier, 30);
         if ((file = fopen(fichier, "r")) == NULL)
         {
             perror("fopen");
@@ -109,7 +114,7 @@ void retour(Voiture *voitures, int n)
     char immat[9];
     int ok = 0, km = -1;
     printf("Veuillez entrer l'immatriculation du vehicule a retourner.\n");
-    scanf("%s", &immat);
+    lire(immat, 9);
     for (int i = 0; i < n; i++)
     {
         if (strcmp(voitures[i].immat, immat) == 0)
@@ -123,10 +128,12 @@ void retour(Voiture *voitures, int n)
             {
                 printf("Combien de kilometres avez-vous fait ?\n");
                 scanf("%d", &km);
+                viderBuffer();
                 while (km < 0)
                 {
                     printf("Veuillez entrer un kilometrage positif.\n");
                     scanf("%d", &km);
+                    viderBuffer();
                 }
                 voitures[i].km += km;
                 voitures[i].etat = dispo;
@@ -144,8 +151,8 @@ void etat(Voiture *voitures, int n)
 {
     char immat[9];
     int ok = 0;
-    printf("Veuillez entrer l'immatriculation du vehicule a retourner.\n");
-    scanf("%8s", &immat);
+    printf("Veuillez entrer l'immatriculation du vehicule a afficher.\n");
+    lire(immat, 9);
     for (int i = 0; i < n; i++)
     {
         if (strcmp(voitures[i].immat, immat) == 0)
@@ -174,7 +181,7 @@ void louer(Voiture *voitures, int n)
 {
     printf("Veuillez entrer l'immatriculation du vehicule a louer\n");
     char immat[9];
-    scanf("%8s", immat);
+    lire(immat, 9);
 
     int voiture_index = -1;
     for (int i = 0; i < n; i++)
@@ -203,20 +210,24 @@ void louer(Voiture *voitures, int n)
     }
 }
 
-void etatParc (Voiture* voitures, int n){
+void etatParc(Voiture *voitures, int n)
+{
     printf("Le parc automobile est actuellemnt composé de %d véhicules.\n", n);
     int nb_loc = 0;
     int sum_km = 0;
-    for (int i = 0; i < n; i++){
-        if (voitures[i].etat == louee) nb_loc++;
+    for (int i = 0; i < n; i++)
+    {
+        if (voitures[i].etat == louee)
+            nb_loc++;
         sum_km += voitures[i].km;
     }
     printf("%d véhicules sont loues.\n", nb_loc);
     printf("%d véhicules sont disponibles.\n", n - nb_loc);
-    printf("Le kilometrage moyen de l'ensemble des voitures est de %f km.\n", (float) sum_km / (float) n);
+    printf("Le kilometrage moyen de l'ensemble des voitures est de %f km.\n", (float)sum_km / (float)n);
 }
 
-void free_parc(Voiture *parc, int n){
+void free_parc(Voiture *parc, int n)
+{
     free(parc);
 }
 
@@ -235,8 +246,8 @@ void save(char *fichier, Voiture *voitures, int n)
 int main()
 {
     Voiture *parc = init(2);
-    //save("test.txt", parc, 2);
+    retour(parc, 2);
+    louer(parc, 2);
     etat(parc, 2);
-    free(parc);
     return 0;
 }
