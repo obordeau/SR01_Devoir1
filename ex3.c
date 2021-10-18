@@ -42,7 +42,7 @@ void menu(Voiture *parc, int n)
     int continuer = 1;
     while (continuer == 1)
     {
-        printf("------------------MENU------------------\n");
+        printf("\n------------------MENU------------------\n");
         printf("1: Louer une voiture\n");
         printf("2: Retour d'une voiture\n");
         printf("3: Etat d'une voiture\n");
@@ -51,6 +51,8 @@ void menu(Voiture *parc, int n)
         printf("0: fin du programme\n");
 
         scanf("%d", &choix);
+        viderBuffer();
+        printf("\n");
         switch (choix)
         {
         case 1:
@@ -64,6 +66,9 @@ void menu(Voiture *parc, int n)
             break;
         case 4:
             etatParc(parc, n);
+            break;
+        case 5:
+            save(parc, n);
             break;
         case 0:
             free_parc(parc, n);
@@ -80,10 +85,10 @@ Voiture *init(int n)
 {
     Voiture *parc = (Voiture *)malloc(n * sizeof(Voiture));
     int choix = -1;
-    printf("Avez-vous deja un fichier sauvegarde ? Oui : 0, Non : 1\n");
+    printf("Avez-vous deja un fichier sauvegarde ? Oui : 1, Non : 0\n");
     scanf("%d", &choix);
     viderBuffer();
-    if (choix == 1)
+    if (choix == 0)
     {
         for (int i = 0; i < n; i++)
         {
@@ -131,6 +136,12 @@ Voiture *init(int n)
         }
         fread(parc, sizeof(Voiture), n, file);
         fclose(file);
+        printf("Le parc a bien ete cree.\n");
+        printf("Les immatriculations des voitures du parc sont les suivantes:\n");
+        for (int i = 0; i < n; i++)
+        {
+            printf("- %s \n", parc[i].immat);
+        }
     }
     return parc;
 }
@@ -238,7 +249,7 @@ void louer(Voiture *voitures, int n)
 
 void etatParc(Voiture *voitures, int n)
 {
-    printf("Le parc automobile est actuellemnt composé de %d véhicules.\n", n);
+    printf("Le parc automobile est actuellemnt compose de %d vehicules.\n", n);
     int nb_loc = 0;
     int sum_km = 0;
     for (int i = 0; i < n; i++)
@@ -257,9 +268,12 @@ void free_parc(Voiture *parc, int n)
     free(parc);
 }
 
-void save(char *fichier, Voiture *voitures, int n)
+void save(Voiture *voitures, int n)
 {
     FILE *file = NULL;
+    char fichier[30];
+    printf("Quel est le nom du fichier ?\n");
+    lire(fichier, 30);
     if ((file = fopen(fichier, "w")) == NULL)
     {
         perror("fopen");
@@ -271,7 +285,7 @@ void save(char *fichier, Voiture *voitures, int n)
 
 int main()
 {
-    Voiture *parc = init(1);
-    menu(parc, 1);
+    Voiture *parc = init(2);
+    menu(parc, 2);
     return 0;
 }
