@@ -12,7 +12,7 @@ typedef struct Voiture
 
 void viderBuffer();
 int lire(char *chaine, int longueur);
-int menu();
+void menu(Voiture *parc, int n);
 Voiture *init(int n);
 void retour(Voiture *voitures, int n);
 void etat(Voiture *voitures, int n);
