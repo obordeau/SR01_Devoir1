@@ -48,7 +48,7 @@ int nmin(int *tab, int N)
 
 float moyenne(int *tab, int N)
 {
-    float total = 0, i = 0;
+    float total = 0;
     for (int i = 0; i < N; i++)
     {
         total += tab[i];
@@ -131,7 +131,7 @@ void graph_nuage(int *NOTES)
         }
     }
     printf("\n");
-    printf("    |  0 - 9 | 10 - 19| 20 - 29| 30 - 39| 40 - 49| 50 - 59|   60   |");
+    printf("    |  0 - 9 | 10 - 19| 20 - 29| 30 - 39| 40 - 49| 50 - 59|   60   |\n\n");
 }
 
 void graph_batons(int *NOTES)
@@ -153,7 +153,7 @@ void graph_batons(int *NOTES)
         printf("\n\n");
     }
     printf("    +--------+--------+--------+--------+--------+--------+--------+\n");
-    printf("    | 0 - 9  | 10 - 19| 20 - 29| 30 - 39| 40 - 49| 50 - 59|   60   |");
+    printf("    | 0 - 9  | 10 - 19| 20 - 29| 30 - 39| 40 - 49| 50 - 59|   60   |\n\n");
 }
 
 int main(int argc, char const *argv[])
@@ -163,11 +163,14 @@ int main(int argc, char const *argv[])
     scanf("%d", &N);
     while (N <= 0)
     {
-        printf("Le nombre d'étudiants doit etre positif.\n");
+        printf("Le nombre d'étudiants doit etre positif.\n\n");
         scanf("%d", &N);
     }
     int *POINTS = initpoints(N);
     int *NOTES = initnotes(POINTS, N);
+    printf("La note maximale du devoir est de %d. \n", nmax(POINTS, N));
+    printf("La note minimale du devoir est de %d. \n", nmin(POINTS, N));
+    printf("La note moyenne du devoir est de %.2f. \n\n", moyenne(POINTS, N));
     graph_nuage(NOTES);
     graph_batons(NOTES);
     free(POINTS);
