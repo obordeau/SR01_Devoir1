@@ -1,3 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <conio.h>
+#define TAILLE 5
+
 typedef struct Voiture
 {
     char modele[20];

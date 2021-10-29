@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <conio.h>
 #include "ex3.h"
 
 void viderBuffer()
@@ -283,9 +279,9 @@ void save(Voiture *voitures, int n)
     fclose(file);
 }
 
-int main()
+int main(int argc, char const *argv[])
 {
-    Voiture *parc = init(2);
-    menu(parc, 2);
+    Voiture *parc = init(TAILLE);
+    menu(parc, TAILLE);
     return 0;
 }
